@@ -15,7 +15,9 @@ jobs:
             - /caches/app.tar
       - run:
           name: Build image
-          command: sh ./.docker/build.sh
+          command: |
+            sh ./.docker/build.sh
+            docker run -it damacus/builder 'inspec'
       - save_cache:
           key: v2-{{ arch }}-{{ .Branch }}-{{ checksum "Dockerfile" }}
           paths:

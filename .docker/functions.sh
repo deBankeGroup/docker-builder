@@ -1,20 +1,17 @@
 #!/bin/sh
 set +o pipefail
 
+PROJECT="$(basename "$(pwd)")"
+DESCRIPTION="Docker container with Docker, Inspec and Ruby"
+MAINTAINER="damacus"
+VCS_URL="https://github.com/${MAINTAINER:?}/${PROJECT:?}"
+DATE=$(date +%Y-%m-%dT%T%z)
+COMMIT=$(git rev-parse --short HEAD)
+FILE="Dockerfile"
+
 build() {
   docker build --cache-from="${MAINTAINER}"/"${CIRCLE_PROJECT_REPONAME:-$PROJECT}" \
                --build-arg PROJECT="${PROJECT}" \
-               --build-arg MAINTAINER="${MAINTAINER}" \
-               --build-arg URL="${VCS_URL}" \
-               --build-arg DATE="${DATE}" \
-               --build-arg COMMIT="${COMMIT}" \
-               --build-arg DESCRIPTION="${DESCRIPTION}" \
-               --file "${FILE}" \
-               --tag "${MAINTAINER}"/"${CIRCLE_PROJECT_REPONAME:-$PROJECT}" .
-}
-
-build_without_cache() {
-  docker build --build-arg PROJECT="${PROJECT}" \
                --build-arg MAINTAINER="${MAINTAINER}" \
                --build-arg URL="${VCS_URL}" \
                --build-arg DATE="${DATE}" \
