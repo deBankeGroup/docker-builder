@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Build image
           command: |
-            source "./.docker/functions.sh"
+            source "./.docker/import.sh"
             build
             test 'inspec'
       - save_cache:
