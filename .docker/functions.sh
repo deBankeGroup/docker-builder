@@ -45,3 +45,8 @@ push() {
 push_beta() {
   true
 }
+
+
+test() {
+  docker run -it "${MAINTAINER}"/"${CIRCLE_PROJECT_REPONAME:-$PROJECT}" "$1"
+}

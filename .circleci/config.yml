@@ -16,8 +16,10 @@ jobs:
       - run:
           name: Build image
           command: |
-            sh ./.docker/build.sh
-            docker run -it damacus/builder 'inspec'
+            sh ./.docker/functions.sh
+            build
+            test 'inspec'
+
       - save_cache:
           key: v2-{{ arch }}-{{ .Branch }}-{{ checksum "Dockerfile" }}
           paths:
