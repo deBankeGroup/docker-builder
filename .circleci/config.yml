@@ -16,6 +16,9 @@ jobs:
       - run:
           name: Build image
           command: |
+            RUN  apk add --no-cache            &&\
+                        ca-certificates        &&\
+                        update-ca-certificates &&\
             source "./.docker/import.sh"
             build
             test 'inspec'
@@ -27,6 +30,9 @@ jobs:
           name: Push Image
           context: org-global
           command: |
+            RUN  apk add --no-cache            &&\
+                        ca-certificates        &&\
+                        update-ca-certificates &&\
             source ".docker/import.sh"
             push
 
