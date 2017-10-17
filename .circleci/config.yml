@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Build image
           command: |
-            sh ./.docker/functions.sh
+            source ./.docker/functions.sh
             build
             test 'inspec'
 
