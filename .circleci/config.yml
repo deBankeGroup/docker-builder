@@ -27,7 +27,7 @@ jobs:
           name: Push Image
           context: org-global
           command: |
-            source ".docker/functions.sh"
+            source ".docker/import.sh"
             push
 
 workflows:
