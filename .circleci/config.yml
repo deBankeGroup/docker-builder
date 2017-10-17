@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: docker:stable-git
     working_directory: ~/project
     steps:
       - checkout
@@ -14,70 +14,19 @@ jobs:
           paths:
             - /caches/app.tar
       - run:
-          name: Build application Docker image
+          name: Build image
           command: sh ./.docker/build.sh
       - save_cache:
           key: v2-{{ arch }}-{{ .Branch }}-{{ checksum "Dockerfile" }}
           paths:
             - /caches/app.tar
       - deploy:
-          name: Push
+          name: Push Image
           context: org-global
           command: |
-            set +o pipefail
-            TAG=$CIRCLE_BUILD_NUM
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-              printf "\n\n--- Images ---\n\n"
-              docker images debankegroup/${CIRCLE_PROJECT_REPONAME}
-              printf "\n\n--- Tagging ---\n\n"
-              docker tag debankegroup/${CIRCLE_PROJECT_REPONAME}:latest debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}
-              printf "\n\n--- Pushing Images to Docker Hub---\n\n"
-              docker push debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}-beta
-            else
-              echo "Not on master so not tagging"
-              docker images
-            fi
+           source ".docker/functions.sh"
+           push
 
-  test:
-    docker:
-      - image: docker:17.05.0-ce-git
-    working_directory: ~/project
-    steps:
-      - checkout
-      - run:
-          name: Test
-          command: |
-            mkdir -p ~/reports
-            gem install inspec
-            inspec exec tests
-      - store_test_results:
-          path: ~/reports
-      - store_artifacts:
-          path: ~/reports
-    deploy:
-      docker:
-        - image: docker:17.05.0-ce-git
-      working_directory: ~/project
-      steps:
-        - checkout
-        - setup_remote_docker:
-            version: 17.07.0-ce
-        - restore_cache:
-            keys:
-              - v2-{{ arch }}-{{ .Branch }}-{{ checksum "Dockerfile" }}
-            paths:
-              - /caches/app.tar
-        - run:
-            name: Build application Docker image
-            command: |
-              set +o pipefail
-              TAG=$CIRCLE_BUILD_NUM
-              docker pull debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}-beta
-              docker tag debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}-beta debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}
-              docker tag debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}-beta debankegroup/${CIRCLE_PROJECT_REPONAME}:latest
-              docker push debankegroup/${CIRCLE_PROJECT_REPONAME}:${TAG}
-              docker push debankegroup/${CIRCLE_PROJECT_REPONAME}:latest
 
 workflows:
   version: 2
@@ -85,7 +34,3 @@ workflows:
     jobs:
       - build:
           context: org-global
-      - test:
-          context: org-global
-          requires:
-            - build
