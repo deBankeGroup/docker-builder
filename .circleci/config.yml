@@ -16,10 +16,9 @@ jobs:
       - run:
           name: Build image
           command: |
-            source ./.docker/functions.sh
+            source "./.docker/functions.sh"
             build
             test 'inspec'
-
       - save_cache:
           key: v2-{{ arch }}-{{ .Branch }}-{{ checksum "Dockerfile" }}
           paths:
@@ -28,8 +27,8 @@ jobs:
           name: Push Image
           context: org-global
           command: |
-           source ".docker/functions.sh"
-           push
+            source ".docker/functions.sh"
+            push
 
 workflows:
   version: 2

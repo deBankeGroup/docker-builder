@@ -18,5 +18,10 @@ ENV RUBY_PACKAGES ruby ruby-bundler ruby-dev
 RUN apk add --no-cache $BUILD_PACKAGES  &&\
     apk add --no-cache $RUBY_PACKAGES   &&\
     gem install inspec --no-ri --no-rdoc
+
+RUN  apk add --no-cache            &&\
+            ca-certificates        &&\
+            update-ca-certificates &&\
+            openssl
 RUN mkdir /project
 WORKDIR /project
