@@ -20,7 +20,7 @@ jobs:
             update-ca-certificates
             source ".docker/import.sh"
             build
-            test 'inspec'
+            test 'inspec version'
       - save_cache:
           key: v2-{{ arch }}-{{ .Branch }}-{{ checksum "Dockerfile" }}
           paths:
