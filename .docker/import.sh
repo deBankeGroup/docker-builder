@@ -1,6 +1,5 @@
 #!/bin/sh
-NAME="docker-builder"
-export PROJECT="${NAME:-$CIRCLE_PROJECT_REPONAME}"
+export PROJECT="docker-builder"
 export DESCRIPTION="Docker container with Docker, Inspec and Ruby"
 export MAINTAINER="damacus"
 export FILE="Dockerfile"
