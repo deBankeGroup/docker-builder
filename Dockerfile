@@ -13,16 +13,12 @@ LABEL "org.label-schema.description"=$DESCRIPTION
 LABEL "org.label-schema.vcs-url"=$URL
 LABEL "org.label-schema.commit-sha"=$COMMIT
 
-ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base libffi-dev
+ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base libffi-dev ca-certificates openssl git
 ENV RUBY_PACKAGES ruby ruby-bundler ruby-dev
-RUN apk add --no-cache $BUILD_PACKAGES  &&\
-    apk add --no-cache $RUBY_PACKAGES   &&\
+RUN apk add --no-cache $BUILD_PACKAGES    &&\
+    apk add --no-cache $RUBY_PACKAGES     &&\
+    update-ca-certificates                &&\
     gem install inspec --no-ri --no-rdoc
-
-RUN apk add --no-cache ca-certificates openssl &&\
-    update-ca-certificates
-
-RUN apk add --no-cache git openssh
 
 RUN mkdir /project
 WORKDIR /project
