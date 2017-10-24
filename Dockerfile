@@ -21,8 +21,10 @@ RUN apk add --no-cache $BUILD_PACKAGES  &&\
 
 RUN apk add --no-cache ca-certificates openssl &&\
     update-ca-certificates
-    
+
 RUN apk add --no-cache git ssh
+
+RUN addgroup -S composer && adduser -S -g composer composer
 
 RUN mkdir /project
 WORKDIR /project
