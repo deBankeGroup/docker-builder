@@ -22,7 +22,7 @@ RUN apk add --no-cache $BUILD_PACKAGES  &&\
 RUN apk add --no-cache ca-certificates openssl &&\
     update-ca-certificates
 
-RUN apk add --no-cache git ssh
+RUN apk add --no-cache git openssh
 
 RUN mkdir /project
 WORKDIR /project
