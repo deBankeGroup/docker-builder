@@ -16,8 +16,6 @@ jobs:
       - run:
           name: Build image
           command: |
-            apk add --no-cach ca-certificates openssl
-            update-ca-certificates
             source ".docker/import.sh"
             build
             test 'inspec'

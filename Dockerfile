@@ -1,24 +1,22 @@
 FROM docker:stable-git
 
-ARG PROJECT
-ARG DESCRIPTION
-ARG MAINTAINER
-ARG URL
-ARG DATE
-ARG COMMIT
-LABEL "org.label-schema.name"=$PROJECT
-LABEL "org.label-schema.build-date"=$DATE
-LABEL "org.label-schema.maintainer"=$MAINTAINER
-LABEL "org.label-schema.description"=$DESCRIPTION
-LABEL "org.label-schema.vcs-url"=$URL
-LABEL "org.label-schema.commit-sha"=$COMMIT
-
 ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base libffi-dev ca-certificates openssl git
 ENV RUBY_PACKAGES ruby ruby-bundler ruby-dev
 RUN apk add --no-cache $BUILD_PACKAGES    &&\
     apk add --no-cache $RUBY_PACKAGES     &&\
     update-ca-certificates                &&\
-    gem install inspec --no-ri --no-rdoc
-
-RUN mkdir /project
+    gem install inspec --no-ri --no-rdoc  &&\
+    mkdir /project
 WORKDIR /project
+
+ARG PROJECT
+ARG DATE
+ARG DESCRIPTION
+ARG URL
+ARG COMMIT
+
+LABEL "io.damacus.title"=$PROJECT            \
+      "io.damacus.created"=$DATE             \
+      "io.damacus.description"=$DESCRIPTION  \
+      "io.damacus.url"=$URL                  \
+      "io.damacus.revision"=$COMMIT
