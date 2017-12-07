@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Build image
           command: |
-            source ".docker/import.sh"
+            source ".docker/functions.sh"
             build
             test 'inspec'
       - save_cache:
@@ -27,9 +27,7 @@ jobs:
           name: Push Image
           context: org-global
           command: |
-            apk add --no-cach ca-certificates openssl
-            update-ca-certificates
-            source ".docker/import.sh"
+            source ".docker/functions.sh"
             push
 
 workflows:
