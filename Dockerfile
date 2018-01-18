@@ -1,6 +1,6 @@
 FROM docker:stable-git
 
-ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base libffi-dev ca-certificates openssl git
+ENV BUILD_PACKAGES bash curl curl-dev ruby-dev build-base libffi-dev ca-certificates openssl git
 ENV RUBY_PACKAGES ruby ruby-bundler ruby-dev
 RUN apk add --no-cache $BUILD_PACKAGES    &&\
     apk add --no-cache $RUBY_PACKAGES     &&\
