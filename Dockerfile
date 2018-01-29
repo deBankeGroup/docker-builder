@@ -9,11 +9,11 @@ RUN apk add --no-cache $BUILD_PACKAGES    &&\
     mkdir /project
 WORKDIR /project
 
-ARG PROJECT
-ARG DATE
-ARG DESCRIPTION
-ARG URL
-ARG COMMIT
+ARG PROJECT=unknown
+ARG DATE=unknown
+ARG DESCRIPTION=unknown
+ARG URL=unknown
+ARG COMMIT=unknown
 
 LABEL "io.damacus.title"=$PROJECT            \
       "io.damacus.created"=$DATE             \
