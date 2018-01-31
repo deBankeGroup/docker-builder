@@ -6,11 +6,11 @@ COPY install_ghr.sh /install_ghr.sh
 RUN apk add --no-cache $BUILD_PACKAGES    &&\
     apk add --no-cache $RUBY_PACKAGES     &&\
     update-ca-certificates                &&\
-    gem install inspec --no-ri --no-rdoc
-
-RUN chmod +x /install_ghr.sh        &&\
-    ./install_ghr.sh                &&\
+    gem install inspec --no-ri --no-rdoc  &&\
+    chmod +x /install_ghr.sh              &&\
+    ./install_ghr.sh                      &&\
     mkdir /project
+
 WORKDIR /project
 
 ARG PROJECT=unknown
