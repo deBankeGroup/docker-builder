@@ -2,13 +2,13 @@ FROM docker:stable-git
 
 ENV BUILD_PACKAGES bash curl curl-dev ruby-dev build-base libffi-dev ca-certificates openssl git
 ENV RUBY_PACKAGES ruby ruby-bundler ruby-dev
-COPY install_ghr.sh /install_ghr.sh
+COPY install_tools.sh /install_tools.sh
 RUN apk add --no-cache $BUILD_PACKAGES    &&\
     apk add --no-cache $RUBY_PACKAGES     &&\
     update-ca-certificates                &&\
     gem install inspec --no-ri --no-rdoc  &&\
-    chmod +x /install_ghr.sh              &&\
-    ./install_ghr.sh                      &&\
+    chmod +x /install_tools.sh            &&\
+    ./install_tools.sh                    &&\
     mkdir /project
 
 WORKDIR /project
