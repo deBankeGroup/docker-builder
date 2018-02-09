@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 17.07.0-ce
+          version: 17.11.0-ce
       - restore_cache:
           keys:
             - v2-{{ arch }}-{{ checksum "Dockerfile" }}
@@ -16,11 +16,13 @@ jobs:
       - run:
           name: Build image
           command: |
-            apk add --no-cach ca-certificates openssl
+            apk add --no-cache ca-certificates openssl bash
             update-ca-certificates
-            source ".docker/functions.sh"
-            build
-            test 'inspec'
+            bash -c "
+              source ".docker/functions.sh" &&\
+              build                         &&\
+              test 'inspec'
+            "
       - save_cache:
           key: v2-{{ arch }}-{{ checksum "Dockerfile" }}
           paths:
@@ -29,8 +31,10 @@ jobs:
           name: Push Image
           context: org-global
           command: |
-            source ".docker/functions.sh"
-            push
+            bash -c "
+              source '.docker/functions.sh' &&\
+              push
+            "
 
 workflows:
   version: 2
