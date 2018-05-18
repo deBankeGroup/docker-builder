@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 GHR_ELEASE='v0.5.4'
 curl -L -O https://github.com/tcnksm/ghr/releases/download/${GHR_ELEASE}/ghr_${GHR_ELEASE}_linux_amd64.zip
 unzip ghr_${GHR_ELEASE}_linux_amd64.zip
